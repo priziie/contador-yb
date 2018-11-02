@@ -1,19 +1,13 @@
 <template>
   <div class="container">
-    <section class="todo">
-      <Todo />
-    </section>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Todo from './components/Todo.vue'
 
 export default {
-  name: 'app',
-  components: {
-    Todo
-  }
+  name: 'app'
 }
 </script>
 
@@ -37,52 +31,5 @@ body {
 .container {
     margin: 50px auto;
     width: 380px;
-}
-.todo{
-    position: relative;
-    width: 260px;
-    margin: 0 auto;
-    padding: 12px 0;
-    background: #fff;
-    border: 1px solid;
-    border-color: #dfdcdc #d9d6d6 #ccc;
-    border-radius: 2px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.todo:before, .todo:after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    height: 4px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-}
-
-.todo:after {
-    left: 0;
-    right: 0;
-    bottom: -3px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.todo:before {
-    left: 2px;
-    right: 2px;
-    bottom: -5px;
-    border-color: #c4c4c4;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-}
-
-.lt-ie9 .todo:before, .lt-ie9 .todo:after {
-    height: 1px;
-    border-top: 0;
 }
 </style>
