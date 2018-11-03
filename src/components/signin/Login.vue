@@ -6,7 +6,8 @@
             <input type="text" v-model="email" placeholder="email"/>
             <input type="password" v-model="password" placeholder="password"/>
             <button @click="signIn">Ingresar</button>
-            <p class="message">Si no tienes cuenta, <router-link to="/signup">Regístrate</router-link></p>
+            <p class="message">Si no tiene cuenta, haga click <router-link to="/signup">aquí</router-link></p>
+            <p class="message"><router-link to="/login">Inicio</router-link></p>
           </form>
         </div>
     </div>

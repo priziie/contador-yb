@@ -1,12 +1,13 @@
 <template>
     <div>
         <li v-for="(item, index) in items" :key="nameProp+index">
-            <input type="checkbox" :id="nameProp+index" 
+            <input type="checkbox" :id="nameProp+index"
                 :disabled="status"
                 :checked="status"
-                @change="$emit('disable',item, $event)"/> 
+                @change="$emit('disable',item, $event)"/>
             <label class="toggle" :for="nameProp+index"></label>
-            <span>{{ item.name }}</span>
+            <div class="names">{{ item.name }}</div>
+            <span class="time2">{{ item.time }}</span>
         </li>
     </div>
 </template>
@@ -110,6 +111,19 @@ input[type=checkbox]:checked + .toggle:after{
     -webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.05), inset 0 5px 5px rgba(0, 0, 0, 0.05);
     -moz-box-shadow: inset 0 1px rgba(0, 0, 0, 0.05), inset 0 5px 5px rgba(0, 0, 0, 0.05);
     box-shadow: inset 0 1px rgba(0, 0, 0, 0.05), inset 0 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.time2{
+    font-size: 7pt;
+    position: absolute;
+    right: 15px;
+    top: 7px;
+    width: 110px;
+    text-align: right;
+}
+.names{
+    width: 125px;
+    max-width: 125px;
 }
 </style>
 

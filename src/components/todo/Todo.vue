@@ -49,7 +49,9 @@ export default {
     data(){
         return {
             people: "",
-            curDate: new Date()
+            curDate: new Date(),
+            minVal: '',
+            maxVal: ''
         }
     },
     firebase() {
@@ -70,14 +72,39 @@ export default {
             return this.list.filter((people) => people.status);
         },
         pending(){
-            return this.list.filter((people) => !people.status);
+            let newList = this.list.filter((people) => !people.status);
+            // si hay mas de una pendiente, haacer el calculo
+            let totalPeople = newList.length;
+            if(totalPeople > 1){
+
+                //tiempo estimado en milisecungo
+                let val = this.totalEstimatedTime();
+                var countTime = this.minVal;
+                let options = { hour12: true, hour: 'numeric', minute: 'numeric' };
+                //lo que tienen en milisegundos
+                val = val/totalPeople;
+                
+                newList = newList.map((x) =>{
+                    //primero, transformo a horas el valor
+                    let timeFrom= new Date(countTime).toLocaleTimeString('es-SV', options);
+                    // sumo el tiempo que le queda
+                    countTime+=val;
+                    let timeTo= new Date(countTime).toLocaleTimeString('es-SV', options);
+                    let time = (timeFrom + ' - '+ timeTo);
+                    x['time'] = time.replace("p. m.", "").replace("a. m.","");
+                    return x;
+                });
+            }
+            console.log(newList);
+            return newList;
+            
         },
         date(){
-            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             return this.curDate.toLocaleDateString('es-SV', options);
         },
         shortDate(){
-            var options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+            let options = { year: '2-digit', month: '2-digit', day: '2-digit' };
             return this.curDate.toLocaleDateString('es-SV', options);
         },
         time(){
@@ -106,6 +133,7 @@ export default {
                         //convertirla a minutos multiplicando por 60
                         decimal *= 60;
                         decimal = (Math.round(decimal * 100) / 100);
+                        decimal = Math.floor(decimal);
                         return integer+'h '+ decimal+ 'm';
                     }
                     return integer+'h';
@@ -144,21 +172,21 @@ export default {
                 hours += 12;
             date.setHours(hours,this.from.minutes);
 
-            let minVal = date.getTime();
+            this.minVal = date.getTime();
 
             hours = parseInt(this.to.hour);
             if(this.to.ampm == 'PM')
                 hours +=12;
             date.setHours(hours, this.to.minutes);
 
-            let maxVal = date.getTime();
+            this.maxVal = date.getTime();
 
             //si la hora actual esta entre el minimo y maximo, setear la hora actual
-            if(this.curDate.getTime() > minVal && this.curDate.getTime() < maxVal){
-                minVal = curDate.getTime();
+            if(this.curDate.getTime() > this.minVal && this.curDate.getTime() < this.maxVal){
+                this.minVal = this.curDate.getTime();
             }
 
-            let val = maxVal-minVal;
+            let val = this.maxVal-this.minVal;
             return val;
         }
     }
