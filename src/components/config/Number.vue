@@ -1,10 +1,11 @@
 <template>
-        <input type="number" :min="min" :max="max">
+        <input type="number" :min="min" :max="max" 
+        v-on:input="$emit('changeConfig',name, $event.target.value)">
 </template>
 
 <script>
 export default {
-    props:['min','max']
+    props:['min','max','name']
 }
 </script>
 

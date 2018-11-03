@@ -1,24 +1,32 @@
 <template>
     <div>
         <label>{{label}}</label>
-        <Number :value="time.hour" min="1" max="11"/>:<Number min="0" max="59" :value="time.minutes"/>
-        <am-pm :value="time.ampm"/>
+        <Number name="hour" :value="time.hour" @changeConfig="changeConfig" min="1" max="11"/>:
+        <Number name="minutes" :value="time.minutes" @changeConfig="changeConfig" min="0" max="59"/>
+        <am-pm :value="time.ampm" @changeConfig="changeConfig" :name="name"/>
     </div>
 </template>
 
 <script>
 import AmPm from './AmPm.vue'
 import Number from './Number.vue'
-
+/* eslint-disable */
 export default {
     data(){
         return{
+
         }
     },
-    props: ['time', 'label'],
+    props: ['time', 'label', 'name'],
     components:{
         AmPm,
         Number
+    },
+    methods: {
+        changeConfig(namechild, value){
+            console.log("entre en time "+value);
+            this.$emit('changeConfig',this.name+'/'+namechild, value);
+        }
     }
 }
 </script>

@@ -1,4 +1,6 @@
 <template>
+<div>
+    <img src="config.png" alt="" @click="goToConfig">
     <section class="todo">
         <ul class="todo-list">
             <li class="right date">{{ date }}</li>
@@ -29,6 +31,7 @@
             </div>
         </ul>
     </section>
+</div>
 </template>
 
 <script>
@@ -127,21 +130,33 @@ export default {
                 peopleRef.child(object['.key']).child("status").set(true);
             }
         },
+        goToConfig(){
+            this.$router.replace('/config');
+        },
         totalEstimatedTime(){
             let date = new Date();
+             var options = { year: '2-digit', month: '2-digit', day: '2-digit', 
+             hour: '2-digit', minute: '2-digit' };
+                
             //validar formato 12h
-            date.setHours(this.from.hour);
-            date.setMinutes(this.from.minutes);
+            let hours = parseInt(this.from.hour);
+            if(this.from.ampm == 'PM')
+                hours += 12;
+            date.setHours(hours,this.from.minutes);
 
-            //si aun no llega la hora minima
             let minVal = date.getTime();
 
-            //si ya nos psamos, comenzar por la hora actual
-
-            date.setHours(this.to.hour);
-            date.setMinutes(this.to.minutes);
+            hours = parseInt(this.to.hour);
+            if(this.to.ampm == 'PM')
+                hours +=12;
+            date.setHours(hours, this.to.minutes);
 
             let maxVal = date.getTime();
+
+            //si la hora actual esta entre el minimo y maximo, setear la hora actual
+            if(this.curDate.getTime() > minVal && this.curDate.getTime() < maxVal){
+                minVal = curDate.getTime();
+            }
 
             let val = maxVal-minVal;
             return val;

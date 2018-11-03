@@ -2,11 +2,11 @@
 <div class="wrapper">
     <div class="form">
         <form>
-            <Time :time="from" label="Desde"/>
+            <Time :time="from" label="Desde" name="from" @changeConfig="changeConfig"/>
             <br>
-            <Time :time="to" label="Hasta"/>
+            <Time :time="to" label="Hasta" name="to" @changeConfig="changeConfig"/>
             <br>
-            <button>Guardar</button>
+            <router-link to="/" tag="button">Regresar</router-link>
         </form>
     </div>
 </div>
@@ -15,7 +15,7 @@
 <script>
 import {db} from '../../db.js'
 import Time from './Time.vue'
-
+/* eslint-disable */
 export default {
     data(){
         return{
@@ -33,6 +33,12 @@ export default {
         to: {
             source: db.ref('config/to'),
             asObject: true
+        }
+    },
+    methods:{
+        changeConfig(name, value){
+            console.log("entre en config");
+            db.ref('config').child(name).set(value);
         }
     }
 }

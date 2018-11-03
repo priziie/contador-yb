@@ -1,22 +1,24 @@
 <template>
      <div class="switch-field">
-        <input type="radio" id="switch_left" value="AM" v-model="ampm"/>
+        <input type="radio" id="switch_left" 
+        value="AM" :checked="value=='AM'" :name="name+'ampm'"
+        v-on:input="$emit('changeConfig','ampm', $event.target.value)"/>
         <label for="switch_left">AM</label>
-        <input type="radio" id="switch_right" value="PM" v-model="ampm"/>
+
+        <input type="radio" id="switch_right" 
+        value="PM" :checked="value=='PM'" :name="name+'ampm'"
+        v-on:input="$emit('changeConfig','ampm', $event.target.value)"/>
         <label for="switch_right">PM</label>
     </div>
 </template>
 
 <script>
+
 export default {
-    props: ['value'],
+    props: ['value','name'],
     data(){
         return{
-            ampm: ''
         }
-    },
-    mounted(){
-        this.ampm= this.value
     }
 }
 </script>

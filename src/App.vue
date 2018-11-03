@@ -29,7 +29,7 @@ body {
     line-height: 20px;
 }
 .container {
-    margin: 50px auto;
+    margin: 10px auto;
     width: 380px;
 }
 </style>
