@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "vue": "^2.5.17"
+    "firebase": "^5.5.4",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuefire": "^1.4.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
