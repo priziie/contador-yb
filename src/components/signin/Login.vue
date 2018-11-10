@@ -30,7 +30,12 @@ export default {
     },
     computed:{
         findByUser(){
-            return this.users.filter((u) => u.username == this.username)[0].email;
+            this.username = this.username.toLowerCase();
+            let u = this.users.filter((u) => u.username == this.username);
+            if(u.length == 1)
+                return this.users.filter((u) => u.username == this.username)[0].email;
+            else 
+                return "";
         },
     },
     methods:{
