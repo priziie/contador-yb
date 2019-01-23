@@ -7,14 +7,21 @@
                 @change="$emit('disable',item, $event)"/>
             <label class="toggle" :for="nameProp+index"></label>
             <div class="names">{{ item.name }}</div>
-            <span class="time2">{{ item.time }}</span>
+            <span class="time2" v-if="isLogged">{{ item.time }}</span>
         </li>
     </div>
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
-    props: ['items','status','nameProp']
+    props: ['items','status','nameProp'],
+    data(){
+        return{
+            isLogged: firebase.auth().currentUser != null
+        }
+    }
 }
 </script>
 

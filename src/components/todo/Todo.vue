@@ -4,9 +4,14 @@
     <section class="todo">
         <ul class="todo-list">
             <li class="right date">{{ date }}</li>
-            <li class="time" v-if="timePerPerson != '-'">Cada una tiene {{timePerPerson}}</li>
+            <li class="time" v-if="timePerPerson != '-'">
+                Para que todas puedan pasar,<br/> cada una tiene {{timePerPerson}}</li>
             <li class="separator" v-else></li>
 
+            <li>
+                EL SACERDOTE CONFESARÁ DE {{from.hour+from.ampm}} HASTA EL INICIO DE LA CLASE (+/- {{to.hour+to.ampm}}).
+                EL TIEMPO QUE APARECE AQUÍ ES SOLO ORIENTATIVO (PARA EL SACERDOTE)
+            </li>
             <div class="pending-list">
             <List :items="pending" nameProp="pending" :status="false" @disable="disablePeople"/>
             </div>
