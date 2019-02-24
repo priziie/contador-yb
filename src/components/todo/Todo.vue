@@ -8,10 +8,9 @@
                 Para que todas puedan pasar,<br/> cada una tiene {{timePerPerson}}</li>
             <li class="separator" v-else></li>
 
-            <!--li>
-                EL SACERDOTE CONFESARÁ DE {{from.hour+from.ampm}} HASTA EL INICIO DE LA CLASE (+/- {{to.hour+to.ampm}}).
-                EL TIEMPO QUE APARECE AQUÍ ES SOLO ORIENTATIVO (PARA EL SACERDOTE)
-            </li-->
+            <li v-if="infoText != ''">
+                {{ infoText }}
+            </li>
             <div class="pending-list">
             <List :items="pending" nameProp="pending" :status="false" @disable="disablePeople"/>
             </div>
@@ -56,8 +55,16 @@ export default {
             people: "",
             curDate: new Date(),
             minVal: '',
-            maxVal: ''
+            maxVal: '',
+            infoText: ''
         }
+    },
+    created(){
+        var th = this;
+        var infTexRef = db.ref('config/infoText');
+        infTexRef.once('value', function(snapshot) {
+            th.infoText = snapshot.val();
+        });
     },
     firebase() {
        return{
