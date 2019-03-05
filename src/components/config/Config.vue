@@ -6,6 +6,8 @@
             <br>
             <Time :time="to" label="Hasta" name="to" @changeConfig="changeConfig"/>
             <br>
+            <textarea v-model="infoText" @focusout="setInfoText" placeholder="Texto informativo"></textarea>
+            <br>
             <router-link to="/" tag="button">Regresar</router-link>
         </form>
     </div>
@@ -19,7 +21,15 @@ import Time from './Time.vue'
 export default {
     data(){
         return{
+            infoText: ''
         }
+    },
+    created(){
+        var th = this;
+        var infTexRef = db.ref('config/infoText');
+        infTexRef.once('value', function(snapshot) {
+            th.infoText = snapshot.val();
+        });
     },
     components:{
         Time
@@ -39,6 +49,10 @@ export default {
         changeConfig(name, value){
             console.log("entre en config");
             db.ref('config').child(name).set(value);
+        },
+        setInfoText(){
+            console.log("entre en info text");
+            db.ref('config').child("infoText").set(this.infoText);
         }
     }
 }
@@ -71,5 +85,13 @@ export default {
 }
 .form button:hover,.form button:active,.form button:focus {
   background: #52A0AA;
+}
+.form textarea{
+    width: 300px;
+    border-color: rgb(221, 221, 221);
+    margin: 0px;
+    height: 85px;
+    margin-bottom: 10%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 </style>
