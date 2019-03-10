@@ -15,7 +15,7 @@ input {
   background: #f2f2f2;
   width: 60px !important;
   border: 0;
-  margin: 0 0 15px;
+  margin: 0px;
   padding: 10px;
   box-sizing: border-box;
   font-size: 14px;
