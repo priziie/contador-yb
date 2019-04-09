@@ -1,37 +1,53 @@
 <template>
     <div> 
-        <div  v-for="(i,e) in events" :key="i" class="prueba">
-            <Time :time="e.from" label="Desde" name="events/from" @changeConfig="changeConfig"/>
-            <Time :time="e.to" label="Hasta" name="events/to" @changeConfig="changeConfig"/>
-        </div>
-        <div v-for="(i,e) in newEvents" :key="i" class="prueba">
-            <Time :time="e.from" label="Desde" name="events/from" @changeConfig="changeConfig"/>
-            <Time :time="e.to" label="Hasta" name="events/to" @changeConfig="changeConfig"/>
+        <div  v-for="(e,i) in events" :key="i" class="prueba">
+            <Time :time="e.from" label="Desde" :name="e['.key']+'/from'" @changeConfig="changeConfig"/>
+            <br>
+            <Time :time="e.to" label="Hasta" :name="e['.key']+'/to'" @changeConfig="changeConfig"/>
+            
+            <hr>
         </div>
         <input type="button" value="Agregar horas a bloquear" @click="addNewEvent">
+        <!-- <div v-for="(e,i) in newEvents" :key="i" class="prueba">
+            <Time :time="e.from" label="Desde" name="events/from" @changeConfig="changeConfig"/>
+            <br>
+            <Time :time="e.to" label="Hasta" name="events/to" @changeConfig="changeConfig"/>
+            
+            <hr>
+        </div> -->
     </div>
 </template>
 
 <script>
+import {db} from '../../db.js'
+
+/* eslint-disable */
+import Time from './Time.vue'
 export default {
-    props: ['events', 'min','max'],
-    data(){
-        return{
-            newEvents: []
-        }
+    components: {
+        Time
     },
+    firebase:{
+        events: db.ref('config/events')
+    },
+    props: ['min','max'],
     methods:{
+        changeConfig(namechild, value){
+            console.log("entre en events name ", namechild, " val ", value);
+            this.$emit('changeConfig',namechild, value);
+            db.ref('config/events').child(namechild).set(value);
+        },
         addNewEvent(){
-            this.newEvents.push({
+            db.ref('config').child("events").push({
                 from:{
-                    ampm: '',
-                    hour: '',
-                    minutes: ''
+                    ampm: this.from.ampm,
+                    hour: this.from.hour,
+                    minutes: this.from.minutes
                 },
                 to:{
-                    ampm: '',
-                    hour: '',
-                    minutes: ''
+                    ampm: this.from.ampm,
+                    hour: this.from.hour,
+                    minutes: this.from.minutes
                 }
             })
         }
@@ -39,16 +55,3 @@ export default {
 }
 </script>
 
-
-<style scoped>
-input[type="number"]{
-  outline: 0;
-  background: #f2f2f2;
-  width: 80px !important;
-  border: 0;
-  margin: 0 10px 15px;
-  padding: 10px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-</style>

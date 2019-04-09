@@ -8,7 +8,7 @@
             <br>
             <textarea v-model="infoText" @focusout="setInfoText" placeholder="Texto informativo"></textarea>
             <br>
-            <Events :events="events"/>
+            <Events/>
             <router-link to="/" tag="button">Regresar</router-link>
         </form>
     </div>
@@ -38,7 +38,7 @@ export default {
         Events
     },
     firebase: {
-        events: db.ref('config/events'),
+        // events: db.ref('config/events'),
         from: {
             source: db.ref('config/from'),
             // optionally bind as an object

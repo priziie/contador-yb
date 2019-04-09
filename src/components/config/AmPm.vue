@@ -1,14 +1,14 @@
 <template>
      <div class="switch-field">
-        <input type="radio" id="switch_left" 
+        <input type="radio" :id="name+'switch_left'" 
         value="AM" :checked="value=='AM'"
         v-on:input="$emit('changeConfig','ampm', $event.target.value)"/>
-        <label for="switch_left">AM</label>
+        <label :for="name+'switch_left'" >AM</label>
 
-        <input type="radio" id="switch_right" 
+        <input type="radio" :id="name+'switch_right'" 
         value="PM" :checked="value=='PM'"
         v-on:input="$emit('changeConfig','ampm', $event.target.value)"/>
-        <label for="switch_right">PM</label>
+        <label :for="name+'switch_right'" >PM</label>
     </div>
 </template>
 
