@@ -7,7 +7,7 @@
                 @change="$emit('disable',item, $event)"/>
             <label class="toggle" :for="nameProp+index"></label>
             <div class="names">{{ item.name }}</div>
-            <span class="time2" v-if="isLogged">{{ item.time }}</span>
+            <span class="time2" v-if="isLogged" v-html="item.time"></span>
         </li>
     </div>
 </template>
@@ -26,7 +26,9 @@ export default {
 </script>
 
 <style>
-
+.specialTime{
+    
+}
 .todo-controls li { float: left }
 
 .todo-controls li + li { margin-left: 10px }

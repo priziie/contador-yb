@@ -28,7 +28,15 @@ export default {
         Time
     },
     firebase:{
-        events: db.ref('config/events')
+        events: db.ref('config/events'),
+        from: {
+            source: db.ref('config/from'),
+            asObject: true
+        },
+        to: {
+            source: db.ref('config/to'),
+            asObject: true
+        }
     },
     props: ['min','max'],
     methods:{
