@@ -8,8 +8,7 @@
                 Para que todas puedan pasar,<br/> cada una tiene {{timePerPersonString}}</li>
             <li class="separator" v-else></li>
 
-            <li v-if="infoText != ''">
-                {{ infoText }}
+            <li v-if="infoText != ''" v-html="infoText">
             </li>
             <div class="pending-list">
             <List :items="pending" nameProp="pending" :status="false" @disable="disablePeople"/>
@@ -61,7 +60,7 @@ export default {
         var th = this;
         var infTexRef = db.ref('config/infoText');
         infTexRef.once('value', function(snapshot) {
-            th.infoText = snapshot.val();
+            th.infoText = snapshot.val().replace(/\n/g,'<br>');
         });
     },
     firebase() {
