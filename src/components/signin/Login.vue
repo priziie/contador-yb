@@ -31,6 +31,7 @@ export default {
     computed:{
         findByUser(){
             this.username = this.username.toLowerCase();
+            // console.log(this.username)
             let u = this.users.filter((u) => u.username == this.username);
             if(u.length == 1)
                 return this.users.filter((u) => u.username == this.username)[0].email;
@@ -42,6 +43,7 @@ export default {
         signIn: function(){
             if(this.username != "" && this.password != ""){
                 let email = this.findByUser;
+            // console.log(email)
                 firebase.auth().signInWithEmailAndPassword(email, this.password).then(
                     (user) => {
                         this.$router.replace('/config');

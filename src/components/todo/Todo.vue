@@ -92,6 +92,10 @@ export default {
                 let val = this.totalTime();
                     // console.log("val",val)
                 var countTime = this.transformToDate(this.from).getTime();
+                var toTime = this.transformToDate(this.to).getTime();
+                if(this.curDate.getTime() > countTime && this.curDate.getTime() < toTime){
+                    countTime = this.curDate.getTime();
+                }
                 let options = { hour12: true, hour: 'numeric', minute: 'numeric' };
                 //lo que tienen en milisegundos
                 val = val/totalPeople;
@@ -111,8 +115,10 @@ export default {
                     let found = this.events.find(e=>{
                         let eFrom = th.transformToDate(e.from);
                         let eTo = th.transformToDate(e.to);
-                        
-                        return fromDate <= eTo && toDate >= eFrom
+                        console.log("from TUrno",fromDate.getTime(),"<= to Evento", eTo.getTime())
+                        console.log("to Turno",toDate.getTime(),">= from Evento", eFrom.getTime())
+                        return (fromDate.getTime() <= eTo.getTime() 
+                                && toDate.getTime() >= eFrom.getTime())
                     })
 
                     // si encontró algún traslape, entonces adelantar las horas del traslape
@@ -130,9 +136,11 @@ export default {
                         let eTo = this.transformToDate(found.to);
                         //1. y 2.
                         if(eFrom > fromDate){
+                            console.log("entro if")
                             // habrán dos fechas
                             //la primera desde el inicio de su turno hasta el inicio del evento
-                            toDate = this.transformToDate(found.from);
+                            toDate = eFrom;
+                            
                             // hora fin del turno actual menos la nueva hora fin
                             let leftTime = countTime - toDate.getTime();
                             // cambio hora fin a nueva  hora fin
@@ -145,7 +153,7 @@ export default {
                             x['time'] = time.replace("p. m.", "").replace("a. m.","");
 
                             // la segunda fecha será desde el fin del evento, al fin del resto del turno que le quedaba
-                            fromDate = this.transformToDate(found.to);
+                            fromDate = eTo;
                             timeFrom= fromDate.toLocaleTimeString('es-SV', options);
 
                             countTime = fromDate.getTime() +leftTime
@@ -154,21 +162,23 @@ export default {
                             timeTo= toDate.toLocaleTimeString('es-SV', options);
                             time = (timeFrom + ' - '+ timeTo);
 
-                            x['time'] = "<div class='specialTime'>"+
+                            x['time'] = 
                                         "<div>"+x.time + "</div>"+
                                         "<div>"+time.replace("p. m.", "").replace("a. m.","")+"</div>"
-                                        + "</div>";
+                                        ;
+                            x['twoHours'] = true;
                         } //caso 3. y 4.
                         else{
+                            console.log("entro else")
                             //solo es de adelantar la hora de inicio a por la fin del evento
-                            fromDate = this.transformToDate(found.to);
+                            fromDate = eTo;
                             timeFrom= fromDate.toLocaleTimeString('es-SV', options);
 
                             countTime = fromDate.getTime()+val;
                             toDate = new Date(countTime);
 
-                            timeTo= toDate.toLocaleTimeString('es-SV', options);
-                            time = (timeFrom + ' - '+ timeTo);
+                            let timeTo= toDate.toLocaleTimeString('es-SV', options);
+                            let time = (timeFrom + ' - '+ timeTo);
 
                             x['time'] = time.replace("p. m.", "").replace("a. m.","");
                         }
@@ -197,7 +207,7 @@ export default {
         },
         timePerPersonString(){
             let length = this.list.filter((people) => !people.status).length;
-            if(length){
+            if(length > 1){
                 let totalInMilSec = this.totalTime()/length;
                     console.log("totalInMilSec",totalInMilSec)
 
@@ -254,7 +264,7 @@ export default {
                 accEvent += this.totalEstimatedTime(e.from, e.to);
                 console.log("accEvent",accEvent)
             });
-            console.log("eventos",accEvent/60000, "total", totalVal/60000)
+            // console.log("eventos",accEvent/60000, "total", totalVal/60000)
 
             //lo que tienen en milisegundos
             return totalVal - accEvent;
@@ -266,13 +276,13 @@ export default {
             let fromDate = this.transformToDate(from).getTime();
             let toDate = this.transformToDate(to).getTime();
 
-            console.log("fromDate",fromDate)
-            console.log("toDate",toDate)
+            // console.log("fromDate",fromDate)
+            // console.log("toDate",toDate)
             //si la hora actual esta entre el minimo y maximo, setear la hora actual
             if(this.curDate.getTime() > fromDate && this.curDate.getTime() < toDate){
                 fromDate = this.curDate.getTime();
             }
-            console.log("fromDate",fromDate)
+            // console.log("fromDate",fromDate)
             
             return toDate-fromDate;
         },
@@ -281,10 +291,10 @@ export default {
 
              //validar formato 12h
             let hours = parseInt(object.hour);
-            if(object.ampm == 'PM')
+            if(object.ampm == 'PM' && hours != 12)
                 hours += 12;
             date.setHours(hours,object.minutes);
-            console.log("date",date)
+            // console.log("date",date)
             return date;
         }
     }
