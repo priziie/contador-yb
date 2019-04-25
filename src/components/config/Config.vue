@@ -8,6 +8,7 @@
             <br>
             <textarea v-model="infoText" @focusout="setInfoText" placeholder="Texto informativo"></textarea>
             <br>
+            <Events/>
             <router-link to="/" tag="button">Regresar</router-link>
         </form>
     </div>
@@ -17,6 +18,7 @@
 <script>
 import {db} from '../../db.js'
 import Time from './Time.vue'
+import Events from './Events.vue'
 /* eslint-disable */
 export default {
     data(){
@@ -32,9 +34,11 @@ export default {
         });
     },
     components:{
-        Time
+        Time,
+        Events
     },
     firebase: {
+        // events: db.ref('config/events'),
         from: {
             source: db.ref('config/from'),
             // optionally bind as an object

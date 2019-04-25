@@ -22,6 +22,10 @@ export default {
         AmPm,
         Number
     },
+    mounted(){
+        console.log(this.name)
+        console.log(this.time)
+    },
     methods: {
         changeConfig(namechild, value){
             console.log("entre en time "+value);
