@@ -220,7 +220,7 @@ export default {
       let length = this.list.filter(people => !people.status).length;
       if (length > 1) {
         let totalInMilSec = this.totalTime() / length;
-        console.log("totalInMilSec", totalInMilSec);
+        console.log("totalInMilSec in minutes", totalInMilSec / 60000);
 
         let minutes = totalInMilSec / 60000;
         let hours = totalInMilSec / 3600000;
@@ -271,12 +271,11 @@ export default {
     totalTime() {
       let totalVal = this.totalEstimatedTime(this.from, this.to);
 
+      // console.log("totalval", totalVal / 60000);
       //acumulado de eventos.
       let accEvent = 0;
       this.events.forEach(e => {
-        console.log("accEvent", accEvent);
         accEvent += this.totalEstimatedTime(e.from, e.to);
-        console.log("accEvent", accEvent);
       });
       // console.log("eventos",accEvent/60000, "total", totalVal/60000)
 
@@ -290,14 +289,19 @@ export default {
       let fromDate = this.transformToDate(from).getTime();
       let toDate = this.transformToDate(to).getTime();
 
-      // console.log("fromDate",fromDate)
-      // console.log("toDate",toDate)
+      // console.log("from", this.transformToDate(from));
+      // console.log("to", this.transformToDate(to));
       //si la hora actual esta entre el minimo y maximo, setear la hora actual
       if (
         this.curDate.getTime() > fromDate &&
         this.curDate.getTime() < toDate
       ) {
         fromDate = this.curDate.getTime();
+      } else if (
+        this.curDate.getTime() > fromDate &&
+        this.curDate.getTime() > toDate
+      ) {
+        fromDate = toDate;
       }
       // console.log("fromDate",fromDate)
 
